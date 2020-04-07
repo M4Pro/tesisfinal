@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+    <h2><b>Datos del Alumno</b></h2>
+    <h3><b>Alumno:</b>{{alum[0].nombre}} </h3>
+    <h3><b>Curso:</b>{{cur[0].nombre}} </h3>
+    
+    
+    
+    <h3><b>Mis Encuestas </b> </h3>
+    <div class="list-group">
+      <table class="table table-bordered">
+          
+          {% for enc in encuestasalu %}
+          <tr>
+            <td>{{enc.nombre}}</td>
+            <td><a href="{{url_for('encuestas_ver',id=enc.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-search"></span> Responder</a></td>
+            
+          </tr>
+        {% endfor %}
+
+
+     
+      </table>
+    </div>  
+
+    <h3><b>Mis Actividades</b>  </h3>      
+    <div class="list-group">
+      <table class="table table-bordered">
+          
+          {% for act in actividadesalu %}
+          <tr>
+            <td>{{act.nombre}}</td>
+            <td><a href="{{url_for('actividades_ver',id=act.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-search"></span> Responder</a></td>
+            
+          </tr>
+        {% endfor %}
+
+
+     
+      </table>
+    
+    </div> 
+
+    <h3><b>Mis Ejercicios</b>  </h3>      
+    <div class="list-group">
+      <table class="table table-bordered">
+          {% for eje in ejerciciosalu %}
+          <tr>
+            <td>{{eje.titulo}}</td>
+            <td><a href="{{url_for('ejerciciosA', id_ejercicio=eje.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-search"></span> Responder</a></td>
+            <!-- <td>HOLA </td> -->
+
+          </tr>
+        {% endfor %}
+
+
+     
+      </table>
+    
+    </div> 
+    
+
+  </div>
+</div>
+ 	
+  
+{% endblock %}

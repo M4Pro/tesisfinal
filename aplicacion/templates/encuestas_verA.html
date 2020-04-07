@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Introduccion a la Ingenieria{% endblock %}
+{% block contenido %}
+<div class="container">
+  <h3> {{enc.nombre}}</h3> 
+  <!-- <table BORDER WIDTH="100%" HEIGHT="50%">
+    <form class="form-inline" method="POST" action=/encuestas/{{identificador}}/ver/{{ id_alum }}>
+      {% for pre in preguntas %}
+      <tr>
+      <td>
+        <label>{{pre.nombre}}</label>
+      </td>   
+      <td>  
+            <select class="custom-select my-1 mr-sm-2" id="calificacion" name="{{'calificacion'+loop.index|string}}">
+              <option selected>Seleccionar</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+            </select>
+      </td>  
+    </tr>
+      <input type="hidden" id="dtp_input1" value="{{identificador}}" name="identificador"/>
+      <input type="hidden" id="dtp_input2" value="{{identificador_alumno}}" name="identificador_alumno"/>
+      <input type="hidden" id="cant_preguntas" value="{{cant_preguntas}}" name="cant_preguntas"/>
+     {% endfor %}
+      <button type="submit" class="btn btn-primary my-1">Enviar</button>
+    </form>
+    
+  </table> -->
+
+  <form class="form-inline" method="POST" action=/encuestas/{{identificador}}/ver/{{ id_alum }}>
+  <table class="table">
+    <tbody>
+      {% for pre in preguntas %}
+      <tr>
+        <td>{{ pre.nombre }}</td>
+        
+        <td><a href="{{url_for('preguntas_edit',id=pre.id, id_encuesta=id_encuesta)}}"><span class="glyphicon glyphicon-search"></span> Editar</a></td>
+      </tr>
+      <input type="hidden" id="dtp_input1" value="{{identificador}}" name="identificador"/>
+      <input type="hidden" id="dtp_input2" value="{{identificador_alumno}}" name="identificador_alumno"/>
+      <input type="hidden" id="cant_preguntas" value="{{cant_preguntas}}" name="cant_preguntas"/>
+      {% endfor %}
+    </tbody>
+  </table>
+  </form>
+  
+ 
+    
+     
+   
+      
+          
+      <!-- {% for enc in encuestas %}
+        <tr>
+          <td>{{enc.nombre}}</td>
+          
+        </tr>
+      {% endfor %} -->
+
+          
+       
+      
+
+     
+      
+    
+</div>
+ 	
+  
+{% endblock %}

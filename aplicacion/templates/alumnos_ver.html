@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}alumnos{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+	
+	<h3>Datos del Alumno</h3>  
+	<div class="list-group">
+		<table class="table table-bordered">
+			
+		
+			<TR>
+				<TH>Nombre alumno</TH>
+				<TH>Email</TH>
+				<TH>Curso</TH>
+				<TH>Encuestas</TH>
+			 </TR>
+			 <TR>
+				<TD>{{alu.nombre}}</TD>
+				<TD>{{alu.email}}</TD>
+				<TD>{{cursos[0].nombre}}</TD>
+				<TD>
+					{% for enc in encuestas %}
+				 
+						<h5>{{enc.id}}.{{enc.nombre}}</h5>
+			   
+				  
+				   {% endfor %}
+
+
+				</TD>
+			
+			</TR>
+			
+				 
+				 
+			
+		 
+		
+
+		
+		
+	  </div>
+	
+	
+  
+</div>
+ 	
+  
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+  
+    <h2><b>Ejercicios</b></h2>   
+    <div class="list-group">
+      <table class="table table-bordered">
+          <tr>
+            <th>Nombre</th>
+            {% if current_user.is_authenticated and current_user.is_admin() %}
+            <td><a class="btn btn-primary" href="{{url_for('ejercicios_new')}}" role="button">Nuevo Ejercicio</a></td>
+            
+            {% endif %}
+          </tr>
+      {% for eje in ejercicios %}
+        <tr>
+          <td>{{eje.titulo}}</td>
+          {% if current_user.is_authenticated and current_user.is_admin() %}
+          
+          <td><a href="{{url_for('ejercicios_edit',id=eje.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar ejercicio</a></td>
+          
+          
+          <td><a href="{{url_for('ejerciciosA', id_ejercicio=eje.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
+          <td><a href="{{url_for('ejercicios_delete',id=eje.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar Ejercicio</a></td>
+          {%endif%}
+        </tr>
+      {% endfor %}
+
+
+     
+      </table>
+    </div>  
+  </div>
+</div>
+ 	
+  
+{% endblock %}

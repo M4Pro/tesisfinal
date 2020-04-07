@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Introduccion a la Ingenieria{% endblock %}
+{% block contenido %}
+<div class="container">
+  
+    <h3> {{act.nombre}}</h3>  
+      <form class="form-inline" method="POST" action=/actividades/{{identificador}}/ver/{{ id_alum }}>
+      <TABLE class="table">
+      <tbody>   
+        {% for pre in preguntas %}
+          <tr> 
+              <td>{{pre.nombre}}</td>
+               
+
+                <td>
+                  <select class="form-control custom-select my-1 mr-sm-2" id="calificacion" name="{{'calificacion'+loop.index|string}}" required>
+                    <option value="" selected>Seleccionar...</option>
+                    <option value="1" required="required">Verdadero</option>
+                    <option value="2"required="required" >Falso</option>
+                    
+                  </select>
+                
+                </td>
+          </tr>
+            <input type="hidden" id="dtp_input1" value="{{identificador}}" name="identificador"/>
+            <input type="hidden" id="dtp_input2" value="{{identificador_alumno}}" name="identificador_alumno"/>
+            <input type="hidden" id="cant_preguntas" value="{{cant_preguntas}}" name="cant_preguntas"/>
+           {% endfor %}
+      </tbody>
+      </TABLE>
+            
+      <button type="submit" class="btn btn-primary my-1">Enviar</button>   
+          </form>
+          
+        
+
+      
+          {% for act in actividades %}
+        
+          <td>{{act.nombre}}</td>
+        
+      
+          {% endfor %}
+      
+  
+  
+</div>
+ 	
+  
+{% endblock %}

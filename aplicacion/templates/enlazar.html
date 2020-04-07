@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+   
+    <h3>Alumno :{{alum[0].nombre}} </h3>
+    <h3>Curso :{{cur[0].nombre}} </h3>
+    
+    
+    
+    <h3>Mis Encuestas  </h3>
+    <div class="list-group">
+      <table class="table table-bordered">
+          
+          {% for enc in encuestasalu %}
+          <tr>
+            <td>{{enc.nombre}}</td>
+            
+            
+          </tr>
+        {% endfor %}
+
+
+     
+      </table>
+    </div>  
+
+    <h3>Mis Actividades  </h3>      
+    <div class="list-group">
+      <table class="table table-bordered">
+          
+          {% for act in actividadesalu %}
+          <tr>
+            <td>{{act.nombre}}</td>
+            
+            
+          </tr>
+        {% endfor %}
+
+
+     
+      </table>
+    </div>  
+  </div>
+</div>
+ 	
+  
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<h2>Ejercicio:  {{ dataTable.nombreEjercicio }} , Alumno:  {{ dataTable.nombreAlumno }}</h2>	
+
+<form method="POST">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Planteamiento</label>
+      <textarea class="form-control" id="{{exampleFormControlTextarea1}}" rows="3" readonly>{{ dataTable.planteamiento }}</textarea>
+      <h2></h2>
+
+      <div class="container col-md-10">
+          <label for="exampleFormControlTextarea1">Introducción : Describa una breve introducción sobre lo que entendió del tema.</label>
+          <textarea class="form-control" id="introduccion" name="introduccion" rows="3" readonly>{{ dataTable.introduccion }}</textarea>
+      </div>
+      
+      <div class="container col-md-2">
+        <label for="exampleInputEmail1">Nota Introducción</label>
+        <input type="number" class="form-control" value="{{ dataTable.notaI }}" min="0" max="30" id="notaIntroduccion" name="notaIntroduccion" aria-describedby="emailHelp">
+        <small id="emailHelp" class="form-text text-muted">Ingrese la calificación.</small>
+      </div>
+
+      <div class="container col-md-10">
+        <label for="exampleFormControlTextarea1">Desarrollo : Describa el desarrollo del ejercicio.</label>
+        <textarea class="form-control" id="desarrollo" name="desarrollo" rows="9" readonly>{{ dataTable.desarrollo }}</textarea>
+      </div> 
+      
+      <div class="container col-md-2">
+        <label for="exampleInputEmail1">Nota Desarrollo</label>
+        <input type="number" class="form-control" value="{{ dataTable.notaD }}" min="0" max="40" id="notaDesarrollo" name="notaDesarrollo" aria-describedby="emailHelp">
+        <small id="emailHelp" class="form-text text-muted">Ingrese la calificación.</small>
+       </div>
+
+      <div class="container col-md-10">
+        <label for="exampleFormControlTextarea1">Conclusión : Describa una Conclusión sobre lo que entendió del tema.</label>
+        <textarea class="form-control" id="conclusion" name="conclusion" rows="5" readonly>{{ dataTable.conclusion }}</textarea>
+      </div> 
+        
+      <div class="container col-md-2">
+        <label for="exampleInputEmail1">Nota Conclusión</label>
+        <input type="number" class="form-control" value="{{ dataTable.notaC }}" min="0" max="30" id="notaConclusion" name="notaConclusion" aria-describedby="emailHelp">
+        <small id="emailHelp" class="form-text text-muted">Ingrese la calificación.</small>
+      </div>
+
+
+     <div class="container col-md-2">
+      <button class="btn btn-lg btn-primary btn-block">Guardar </button>
+     </div>
+    </div>
+   
+  </form>
+  
+{% endblock %}

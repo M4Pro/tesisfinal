@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Portafolio	{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+  <div class="col-md-2">
+    {% if current_user.is_authenticated and current_user.is_admin() %}  
+      <h3>Cursos...</h3>
+     
+      <div class="list-group">
+    
+       {% for cur in cursos %}
+       {% if curso.nombre==cur.nombre%}
+         <a class="list-group-item active" href="{{url_for("inicio",id=cur.id)}}">{{cur.nombre}}</a>
+       {% else %}
+         <a class="list-group-item" href="{{url_for("inicio",id=cur.id)}}">{{cur.nombre}}</a>
+       {% endif%}
+       {% endfor %}
+      </div>
+    {% endif%} 
+    
+
+   
+    
+      
+  </div>
+
+  {% if current_user.is_authenticated and current_user.is_admin() %} 
+   <a class="btn btn-primary" href="{{url_for('alumnos_new')}}" role="button">Nuevo Alumno</a>
+  
+                
+   <a class="btn btn-primary" href="{{url_for('cursos_new')}}" role="button">Nuevo Curso</a>
+   <a class="btn btn-primary" href="{{url_for('ejercicios_new')}}" role="button">Nuevo Ejercicios</a>
+
+   <a class="btn btn-primary" href="{{url_for('encuestas_new')}}" role="button">Nueva Encuesta</a>
+  
+   <a class="btn btn-primary" href="{{url_for('actividades_new')}}" role="button">Nuevo Test</a>
+  {% endif %}
+  <div class="col-md-10">
+  {% if current_user.is_authenticated and current_user.is_admin() %}  
+      <h3>Curso : {{curso.nombre}}</h3>
+    
+	    <div class="panel panel-default">
+  			<table class="table table-bordered">
+         
+          
+          
+            <th>Encuestas</th>
+            {% for enc in encuestas %}
+
+              <tr>
+              <td>{{enc.nombre}}</td>
+              <td><a href="{{url_for('encuestas_edit',id=enc.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar</a></td>
+             
+              <td><a href="{{url_for('encuestas_ver',id=enc.id)}}"><span class="glyphicon glyphicon-search"></span> Ver Encuesta</a></td>
+              </tr>
+            {% endfor %}  
+
+            
+        
+            <th>Alumnos</th>
+            {% for alu in alumnos %}
+
+  	    			<tr>
+                <td>{{alu.nombre}}</td>
+                <td>{{alu.descripcion}}</td>
+                <td><a href="{{url_for('alumnos_edit',id=alu.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar</a></td>
+                <!-- <td><a href="{{url_for('alumnos_delete',id=alu.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a></td> -->
+                <td><a href="{{url_for('alumnos_ver',id=alu.id)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
+  	    			</tr>
+            {% endfor %}
+          
+    
+            
+  	    </table>
+    {% endif %}
+  	</div>
+  </div>
+</div>
+ 	
+  
+{% endblock %}

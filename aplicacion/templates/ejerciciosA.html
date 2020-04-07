@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<h2>Nota:  {{ body_data.puntaje_total }}</h2>
+<h2>Ejercicio:  {{ ejercicios.titulo }}</h2>	
+
+<form method="POST">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Planteamiento</label>
+      <textarea class="form-control" id="{{exampleFormControlTextarea1}}" rows="3" readonly>{{ ejercicios.planteamiento }}</textarea>
+      <h2></h2>
+      <label for="exampleFormControlTextarea1">Introducción : Describa una breve introducción sobre lo que entendió del tema.</label>
+      <textarea class="form-control" id="introduccion" name="introduccion" rows="3" required>{{ body_data.introduccion }}</textarea>
+      <label for="exampleFormControlTextarea1">Desarrollo : Describa el desarrollo del ejercicio.</label>
+      <textarea class="form-control" id="desarrollo" name="desarrollo" rows="9" required>{{ body_data.desarrollo }}</textarea>
+      <label for="exampleFormControlTextarea1">Conclusión : Describa una conclusión sobre lo que entendió del tema.</label>
+      <textarea class="form-control" id="conclusion" name="conclusion" rows="5" required>{{ body_data.conclusion }}</textarea>
+    {% if flag_respuesta == False %}
+      <button>Enviar</button>
+    {% else %}
+    {% endif %}
+    </div>
+  </form>
+
+{% endblock %}

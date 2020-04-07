@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+  
+    <h2><b>Test Rapidos</b></h2>  
+    <div class="list-group">
+      <table class="table table-bordered">
+          <tr>
+            <th>Nombre</th>
+            {% if current_user.is_authenticated and current_user.is_admin() %}
+            <td><a class="btn btn-primary" href="{{url_for('actividades_new')}}" role="button">Nuevo Test</a></td>
+            <td><a class="btn btn-primary" href="{{url_for('preguntasA_new')}}" role="button">Nueva Pregunta Test</a></td>
+            {% endif %}
+          </tr>
+      {% for act in actividades %}
+        <tr>
+          <td>{{act.nombre}}</td>
+          {% if current_user.is_authenticated and current_user.is_admin() %}
+          
+          
+          <td><a href="{{url_for('actividades_edit',id=act.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar Test</a></td>
+          <!-- <td><a href="{{url_for('actividades_delete',id=act.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar Test</a></td> -->
+          <td><a href="{{url_for('actividades_ver',id=act.id)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
+          {%endif%}
+        </tr>
+      {% endfor %}
+
+
+     
+      </table>
+    </div>  
+  </div>
+</div>
+ 	
+  
+{% endblock %}

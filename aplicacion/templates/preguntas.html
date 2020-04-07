@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+  
+    <h3>Preguntas</h3>  
+    <div class="list-group">
+      <table class="table table-bordered">
+          <tr>
+            <th>Nombre</th>
+          </tr>
+      {% for pre in preguntas %}
+        <tr>
+          <td>{{pre.nombre}}</td>
+          <td><a href="{{url_for('preguntas_new',id=enc.id)}}"><span class="glyphicon glyphicon-pencil"></span> Nueva Pregunta</a></td>
+        </tr>
+      {% endfor %}
+      </table>
+    </div>  
+  </div>
+</div>
+ 	
+  
+{% endblock %}
