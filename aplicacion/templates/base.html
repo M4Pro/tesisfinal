@@ -14,6 +14,7 @@
           
           <a class="navbar-brand" href="/">Inicio</a>
           <a class="navbar-brand" href="{{url_for('cursos')}}">Cursos</a>
+          <a class="navbar-brand" href="{{url_for('ejercicios')}}">Ejercicios</a>
           <a class="navbar-brand" href="{{url_for('encuestas')}}">Encuestas</a>
           {% if current_user.is_authenticated %} 
           <a class="navbar-brand" href="{{url_for('calificaciones')}}">Notas Encuestas</a>
@@ -22,9 +23,9 @@
           {% if current_user.is_authenticated %}
           <a class="navbar-brand" href="{{url_for('calificacionesA')}}">Notas Test</a>
           {%endif%}
-          <a class="navbar-brand" href="{{url_for('ejercicios')}}">Ejercicios</a>
+          
           {% if current_user.is_authenticated and current_user.is_admin() %}
-          <a class="navbar-brand" href="{{url_for('calificar')}}">Calificar</a>
+          <a class="navbar-brand" href="{{url_for('calificar')}}">Calificar Ejercicios</a>
           {%endif %}
         </div>
 

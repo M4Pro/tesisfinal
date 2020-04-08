@@ -23,6 +23,7 @@
           <td><a href="{{url_for('actividades_edit',id=act.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar Test</a></td>
           <!-- <td><a href="{{url_for('actividades_delete',id=act.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar Test</a></td> -->
           <td><a href="{{url_for('actividades_ver',id=act.id)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
+          <td><a href="{{url_for('actividades_delete',id=act.id)}}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a></td>
           {%endif%}
         </tr>
       {% endfor %}

@@ -75,32 +75,16 @@ def calificaciones():
         print(index)
         encAux = Encuestas.query.filter_by(id=puntaje[index].enc_id)
         aluAux = Alumnos.query.filter_by(id=puntaje[index].alu_id)
-        print(puntaje[index].puntaje_total, encAux[0].nombre, aluAux[0].nombre)
+        
+           
+       
         dataTable.append(
                     {   'nombreAlumno': aluAux[0].nombre,
                         'nombreEncuesta': encAux[0].nombre,
                         'puntajeTotal': puntaje[index].puntaje_total
                     }
                 )
-    #print(encuestas[0].nombre)
-    """for index in range(0, len(encuestas)):
-        encAux = encuestas[index].nombre
-
-        try:
-            for index2 in range(0, len(encuestas[index].encuesta_resp)):
-                #print(encuestas[index].encuesta_resp[index2].nombre)
-                nombreAux = encuestas[index].encuesta_resp[index2].nombre
-
-                dataTable.append(
-                    {   'nombreAlumno': nombreAux,
-                        'nombreEncuesta': encAux
-                    }
-                )
-        except Exception as e:
-            print("No hay alumnos")
-        
-        #print(encuestas[index].nombre)
-    print(dataTable)"""
+    
 
     return render_template("calificaciones.html", dataTable = dataTable)
 
@@ -158,13 +142,10 @@ def calificacionesA():
     alumnos = Alumnos.query.all()
     puntaje = PuntajeA.query.all()
     
-    print("ESTOY EN CALIFICACIONES A")
     for index in range(0,len(puntaje)):
-        print("ESTOY EN CALIFICACIONES A EN EL FOR")
-        print(index)
         actAux = Actividades.query.filter_by(id=puntaje[index].act_id)
         aluAux = Alumnos.query.filter_by(id=puntaje[index].alu_id)
-        print(puntaje[index].puntaje_total, actAux[0].nombre, aluAux[0].nombre)
+        
         dataTable.append(
                     {   'nombreAlumno': aluAux[0].nombre,
                         'nombreActividad': actAux[0].nombre,
@@ -305,9 +286,6 @@ def ejerciciosADM(id_ejercicio, id_alum):
 def evaluar():
     
     return render_template("evaluar.html")
-
-
-
 
 @app.route('/alumnos/<id>/ver', methods=["get", "post"])
 @login_required
@@ -913,19 +891,35 @@ def alumnos_edit(id):
 @app.route('/alumnos/<id>/delete', methods=["get", "post"])
 @login_required
 def alumnos_delete(id):
-    from aplicacion.models import Alumnos
+    from aplicacion.models import Alumnos , Puntaje , PuntajeA
     # Control de permisos
     if not current_user.is_admin():
         abort(404)
-
+    puntajes= Puntaje.query.filter_by(alu_id=id)
+    print("EL ALRGO DE PTS ES",puntajes.count())
+    largo=puntajes.count()
+    
+    puntajesA= PuntajeA.query.filter_by(alu_id=id)
+    print("EL ALRGO DE PTS ES",puntajesA.count())
+    largo2=puntajesA.count()
     alu = Alumnos.query.get(id)
     if alu is None:
         abort(404)
     form = formSINO()
     if form.validate_on_submit():
         if form.si.data:
-            db.session.delete(alu)
-            db.session.commit()
+            
+           
+            for index in range(0, largo):
+                db.session.delete(puntajesA[index])
+                db.session.commit()
+
+            for index in range(0, largo2):
+                db.session.delete(puntajesA[index])
+                db.session.commit()
+
+        db.session.delete(alu)
+        db.session.commit()
         return redirect(url_for("inicio"))
     return render_template("alumnos_delete.html", form=form, alu=alu)
 
@@ -959,17 +953,37 @@ def cursos_edit(id):
 @app.route('/cursos/<id>/delete', methods=["get", "post"])
 @login_required
 def cursos_delete(id):
-    from aplicacion.models import Cursos
+    from aplicacion.models import Cursos,Alumnos,Encuestas ,Puntaje, PuntajeA, Actividades
     # Control de permisos
     if not current_user.is_admin():
         abort(404)
-  
+
+
+    print("el largo es")
+    alumnos=Alumnos.query.filter_by(Cursoid=id)
+    encuestas=Encuestas.query.filter_by(Cursoid=id)
+    actividades=Actividades.query.filter_by(Cursoid=id)
+    largoalu=alumnos.count()
+        
     cur = Cursos.query.get(id)
     if cur is None:
         abort(404)
     form = formSINO()
     if form.validate_on_submit():
         if form.si.data:
+            for index in range(0, largoalu):
+                print("POR AQUI PASO",index)
+                puntajesA= Puntaje.query.filter_by(alu_id=alumnos[index].id)
+                cpuntaje=puntajesA.count()
+                if cpuntaje>0:
+                    db.session.delete(puntajesA[index])
+                    db.session.commit()
+               
+                puntajesAA= PuntajeA.query.filter_by(alu_id=alumnos[index].id)
+                cpuntajeA=puntajesAA.count()
+                if cpuntajeA>0:
+                    db.session.delete(puntajesAA[index])
+                    db.session.commit()
             db.session.delete(cur)
             db.session.commit()
         return redirect(url_for("cursos"))

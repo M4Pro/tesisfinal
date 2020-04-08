@@ -3,7 +3,7 @@ from aplicacion.app import app, db
 from aplicacion.models import *
 from getpass import getpass
 
-server = Server(host="10.144.173.90", port=5000)
+server = Server(host="0.0.0.0", port=80)
 manager = Manager(app)
 manager.add_command("runserver", server)
 app.config['DEBUG'] = True  # Ensure debugger will load.

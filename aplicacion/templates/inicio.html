@@ -51,7 +51,7 @@
               <tr>
               <td>{{enc.nombre}}</td>
               <td><a href="{{url_for('encuestas_edit',id=enc.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar</a></td>
-             
+              <td><a href="{{url_for('encuestas_delete',id=enc.id)}}"><span class="glyphicon glyphicon-trash"></span> Eliminar Encuesta</a></td>
               <td><a href="{{url_for('encuestas_ver',id=enc.id)}}"><span class="glyphicon glyphicon-search"></span> Ver Encuesta</a></td>
               </tr>
             {% endfor %}  
@@ -65,7 +65,7 @@
                 <td>{{alu.nombre}}</td>
                 <td>{{alu.descripcion}}</td>
                 <td><a href="{{url_for('alumnos_edit',id=alu.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar</a></td>
-                <!-- <td><a href="{{url_for('alumnos_delete',id=alu.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a></td> -->
+                <td><a href="{{url_for('alumnos_delete',id=alu.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a></td>
                 <td><a href="{{url_for('alumnos_ver',id=alu.id)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
   	    			</tr>
             {% endfor %}
