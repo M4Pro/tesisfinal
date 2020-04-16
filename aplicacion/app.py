@@ -949,6 +949,49 @@ def cursos_edit(id):
 
     return render_template("cursos_new.html", form=form)
 
+@app.route('/cursos/<id>/ver', methods=["get", "post"])
+@login_required
+def cursos_ver(id):
+    from aplicacion.models import  Cursos,Alumnos, Ejercicios, PuntajeE
+    
+
+    dataTable = []
+    curso=Cursos.query.filter_by(id=id)
+    print("curso",curso[0].nombre)
+    ejercicios = Ejercicios.query.all()
+    alumnos = Alumnos.query.filter_by(Cursoid=id)
+    largoalu=alumnos.count()
+    print(largoalu)
+
+
+
+    for index in range(0,largoalu):
+       
+        try:
+            nombreAux=alumnos[index].nombre
+            print(nombreAux)
+            puntajes=PuntajeE.query.filter_by(alu_id=alumnos[index].id)
+            largopuntaje=puntajes.count()
+            puntajetotal=0
+
+            for index in range(0,(largopuntaje)):
+                puntajetotal=puntajetotal + puntajes[index].puntaje_total
+                print("PUNTAJE",puntajetotal)
+
+            puntajetotal=puntajetotal/largopuntaje
+
+
+            dataTable.append(
+                        {   'index':index+1,
+                            'nombreAlumno': nombreAux,
+                                            
+                            'promedio'  :  puntajetotal          }
+                    )
+        except Exception as e:
+            pass
+    
+
+    return render_template("cursos_ver.html",dataTable=dataTable,curso=curso)
 
 @app.route('/cursos/<id>/delete', methods=["get", "post"])
 @login_required

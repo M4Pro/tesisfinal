@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+    
+    <table class="table">
+      <thead>
+        <th>{{curso[0].nombre}}</th>
+        <tr>
+          <th scope="col">Numero</th>
+          <th scope="col">Alumno</th>
+          <th scope="col">Promedio Parcial</th>
+         
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for index in dataTable %}
+          <tr>
+              <td>{{ index.index }}</td>           
+              <td>{{ index.nombreAlumno }}</td>
+              <td>{{ index.promedio }}</td>
+              
+              
+                         
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+ 	
+  
+{% endblock %}
+
