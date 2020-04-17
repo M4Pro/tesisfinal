@@ -33,7 +33,7 @@ def inicio(id='0'):
     
 
     if id == '0':
-        alumnos = Alumnos.query.all()
+        alumnos = Alumnos.query.filter_by(Cursoid=id)
         print("no seleccione nada")
     else:
         print("si seleccione")
