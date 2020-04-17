@@ -1100,7 +1100,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = Alumnos.query.filter_by(username=form.username.data).first()
-        print("el username encontrado fue",user.username)
+        
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
             if user.admin==True:
