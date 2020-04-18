@@ -52,7 +52,7 @@
               <td>{{enc.nombre}}</td>
               <td><a href="{{url_for('encuestas_edit',id=enc.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar</a></td>
               <td><a href="{{url_for('encuestas_delete',id=enc.id)}}"><span class="glyphicon glyphicon-trash"></span> Eliminar Encuesta</a></td>
-              <td><a href="{{url_for('encuestas_ver',id=enc.id)}}"><span class="glyphicon glyphicon-search"></span> Ver Encuesta</a></td>
+              <td><a href="{{url_for('encuestas_verA',id=enc.id)}}"><span class="glyphicon glyphicon-search"></span> Ver y/o Editar Preguntas</a></td>
               </tr>
             {% endfor %}  
 

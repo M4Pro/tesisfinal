@@ -27,7 +27,7 @@ def inicio(id='0'):
     #print("aaaa", current_user)
     try:
         if not current_user.is_admin():
-            return redirect(url_for('inicioAA', username=current_user.username))
+            return redirect(url_for('inicioAlum', username=current_user.username))
     except Exception as e:
         pass
     
@@ -59,6 +59,85 @@ def cursos():
     from aplicacion.models import Cursos
     cursos = Cursos.query.all()
     return render_template("cursos.html", cursos=cursos)
+
+@app.route('/inicioAlum/<username>', methods=["get", "post"])
+
+def inicioAlum(username):
+    from aplicacion.models import Alumnos , Encuestas , Cursos , Actividades, Ejercicios ,PuntajeE ,Puntaje,PuntajeA
+    dataTable = []
+    dataTable2 = []
+    dataTable3 = []
+    """alumnos= Alumnos.query.all()
+    actividades= Actividades.query.all()
+    ejercicios= Ejercicios.query.all()
+    cursos =Cursos.query.all()
+    encuestas =Encuestas.query.all()"""
+    alum=Alumnos.query.filter_by(username=username)
+    cur=Cursos.query.filter_by(id=alum[0].Cursoid)
+    encuestasalu=Encuestas.query.filter_by(Cursoid=cur[0].id)
+    actividadesalu=Actividades.query.filter_by(Cursoid=cur[0].id)
+    ejerciciosalu=Ejercicios.query.filter_by(Cursoid=cur[0].id)
+
+    puntajercicio=PuntajeE.query.filter_by(alu_id=alum[0].id)
+    largopun=puntajercicio.count()
+    
+    for index in range(0,largopun):
+        print(index)
+        ejeAux = Ejercicios.query.filter_by(id=puntajercicio[index].eje_id)
+        aluAux = Alumnos.query.filter_by(id=puntajercicio[index].alu_id)
+        if puntajercicio[index].puntaje_total==None:
+            puntajercicio[index].puntaje_total=0;
+            print("es none")
+            dataTable.append(
+                        {   'nombreAlumno': aluAux[0].nombre,
+                            'nombreEncuesta': ejeAux[0].titulo,
+                            'puntajeTotal': "Falta Calificar"
+                        }
+                    )
+        else:
+            dataTable.append(
+                        {   'nombreAlumno': aluAux[0].nombre,
+                            'nombreEncuesta': ejeAux[0].titulo,
+                            'puntajeTotal': puntajercicio[index].puntaje_total
+                        }
+                    )
+
+    puntaEncuesta=Puntaje.query.filter_by(alu_id=alum[0].id)
+    largopunt=puntaEncuesta.count()
+
+    for index in range(0,largopunt):
+        print(index)
+        encAux = Encuestas.query.filter_by(id=puntaEncuesta[index].enc_id)
+        aluAux = Alumnos.query.filter_by(id=puntaEncuesta[index].alu_id)
+        
+           
+       
+        dataTable2.append(
+                    {   'nombreEncuesta': encAux[0].nombre,
+                        'puntajeTotal': puntaEncuesta[index].puntaje_total
+                    }
+                )
+
+    puntaTest=PuntajeA.query.filter_by(alu_id=alum[0].id)
+    largopuntA=puntaTest.count()
+
+    for index in range(0,largopuntA):
+        print(index)
+        testAux = Actividades.query.filter_by(id=puntaTest[index].act_id)
+        aluAux = Alumnos.query.filter_by(id=puntaTest[index].alu_id)
+        
+           
+       
+        dataTable3.append(
+                    {   'nombreTest': testAux[0].nombre,
+                        'puntajeTotal': puntaTest[index].puntaje_total
+                    }
+                )
+
+
+    return render_template("inicioAlum.html",dataTable=dataTable,dataTable2=dataTable2,dataTable3=dataTable3,cur=cur,alum=alum,encuestasalu=encuestasalu,actividadesalu=actividadesalu,ejerciciosalu=ejerciciosalu, puntajercicio=puntajercicio)
+
+    
 
 @app.route('/calificaciones')
 def calificaciones():
@@ -115,13 +194,24 @@ def calificar():
             aluAux = Alumnos.query.filter_by(id=puntaje[index].alu_id)
             puntTotal= (puntaje[index].puntaje_total)
             #print(puntaje[index].ejeAux[0].nombre, aluAux[0].nombre)
-            dataTable.append(
-                        {   'nombreAlumno': aluAux[0].nombre,
-                            'tituloEjercicio': ejeAux[0].titulo,
-                            'idAlumno': aluAux[0].id,
-                            'idEjercicio': ejeAux[0].id,                   
-                            'puntTotal'  :  puntTotal          }
-                    )
+            if puntTotal==None:
+                dataTable.append(
+                            {   'nombreAlumno': aluAux[0].nombre,
+                                'tituloEjercicio': ejeAux[0].titulo,
+                                'idAlumno': aluAux[0].id,
+                                'idEjercicio': ejeAux[0].id,                   
+                                'puntTotal'  :  "Por Calificar"          }
+                        )
+            
+            
+            else:
+                dataTable.append(
+                            {   'nombreAlumno': aluAux[0].nombre,
+                                'tituloEjercicio': ejeAux[0].titulo,
+                                'idAlumno': aluAux[0].id,
+                                'idEjercicio': ejeAux[0].id,                   
+                                'puntTotal'  :  puntTotal          }
+                        )
         except Exception as e:
             pass
         
@@ -196,7 +286,7 @@ def ejerciciosA(id_ejercicio):
         compare = PuntajeE.query.all()
         for index in range(0, len(compare)):
             if compare[0].alu_id == current_user.id and compare[0].eje_id == ejercicios[0].id:
-                return redirect(url_for('inicioAA', username=current_user.username))
+                return redirect(url_for('inicioAlum', username=current_user.username))
 
         dataTotal = PuntajeE(introduccion=intro_data, desarrollo=desa_data, conclusion=conclu_data, eje_id=ejercicios[0].id, alu_id=int(current_user.id))
         db.session.add(dataTotal)
@@ -371,7 +461,7 @@ def actividades_ver(id, id_alum):
 
         if alumno.id not in array_alumnos:
             act.actividad_resp.append(alumno)
-            punt = PuntajeA(puntaje_total=total_calificacion/int(cant_preg), alu_id=alumno.id, act_id=id)
+            punt = PuntajeA(puntaje_total=total_calificacion, alu_id=alumno.id, act_id=id)
             db.session.add(punt)
             db.session.commit()
             print("SE HIZO EL COMMIT")
@@ -389,7 +479,7 @@ def actividades_ver(id, id_alum):
 
 
 
-        return redirect(url_for('inicioAA', username=alumno.username))
+        return redirect(url_for('inicioAlum', username=alumno.username))
         # acá ingresas a la base de datos
 
    
@@ -487,7 +577,7 @@ def encuestas_ver(id, id_alum):
 
         if alumno.id not in array_alumnos:
             enc.encuesta_resp.append(alumno)
-            punt = Puntaje(puntaje_total=total_calificacion/int(cant_preg), alu_id=alumno.id, enc_id=id)
+            punt = Puntaje(puntaje_total=total_calificacion, alu_id=alumno.id, enc_id=id)
             db.session.add(punt)
             db.session.commit()
             print("SE HIZO EL COMMIT")
@@ -505,12 +595,87 @@ def encuestas_ver(id, id_alum):
 
 
 
-        return redirect(url_for('inicioAA', username=alumno.username))
+        return redirect(url_for('inicioAlum', username=alumno.username))
         # acá ingresas a la base de datos
 
    
     
     return render_template("encuestas_ver.html", preguntas=preguntas, enc=enc, identificador=id, cant_preguntas=cant_preguntas, id_alum=id_alum)
+
+
+@app.route('/actividades/<id>/verA/', defaults={'id_alum': 1}, methods=["GET", "POST"])
+@app.route('/actividades/<id>/verA/<id_alum>', methods=["GET", "POST"])
+@login_required
+def actividades_verA(id, id_alum):
+
+    from aplicacion.models import Actividades, Cursos , PreguntasA, Alumnos, Puntaje
+    
+    act = Actividades.query.get(id)
+    actividades=Actividades.query.all()
+    preguntas = PreguntasA.query.all()
+   
+    
+    if id == '0':
+        preguntas = PreguntasA.query.all()
+    else:
+        id2=int(id)
+        preguntas = PreguntasA.query.filter_by(Actividadid=id2)
+    actividad = Actividades.query.all()
+    cant_preguntas = preguntas.count()
+    
+    if request.method =='POST':
+        calificaciones=[]
+        #calificacion= str(request.form['calificacion1'])
+        identificador= str(request.form['identificador'])
+        cant_preg= str(request.form['cant_preguntas'])
+
+        total_calificacion = 0
+
+        for index in range(0,int(cant_preg)):
+            calificaciones.append(str(request.form['calificacion'+str(index+1)]))
+            preguntas[index].respuesta = calificaciones[index]
+            total_calificacion += int(calificaciones[index])
+            print("total",total_calificacion)
+            print("cant preg",cant_preg)
+            try:
+                preguntas[index].cantidad_resp+= 1
+            except Exception as e:
+                preguntas[index].cantidad_resp = 1
+                 
+       
+        print("El ID de la encuesta es: ", identificador)
+
+        alumno = Alumnos.query.get(id_alum)
+        actividades = Actividades.query.get(id)
+        print("actividades", actividades.actividad_resp)
+        array_alumnos = []
+        for index_alum in actividades.actividad_resp:
+            array_alumnos.append(index_alum.id)
+            print("A",index_alum)
+
+        print(array_alumnos)
+
+        if alumno.id not in array_alumnos:
+            act.actividad_resp.append(alumno)
+            punt = Puntaje(puntaje_total=total_calificacion/int(cant_preg), alu_id=alumno.id, act_id=id)
+            db.session.add(punt)
+            db.session.commit()
+            print("SE HIZO EL COMMIT")
+        else:
+            print("Error")
+            return render_template("error.html")
+
+        actividades = Actividades.query.all()
+        #encuestas[0].encuesta_resp
+        print("Act Y ALUMNOS")
+        print(actividades[0].actividad_resp)
+
+        return redirect(url_for('inicioAlum', username=alumno.username))
+        # acá ingresas a la base de datos
+     
+    return render_template("actividades_verA.html", id_actividad=id, preguntas=preguntas, act=act, identificador=id, cant_preguntas=cant_preguntas, id_alum=id_alum)
+
+
 
 @app.route('/encuestas/<id>/verA/', defaults={'id_alum': 1}, methods=["GET", "POST"])
 @app.route('/encuestas/<id>/verA/<id_alum>', methods=["GET", "POST"])
@@ -579,7 +744,7 @@ def encuestas_verA(id, id_alum):
         print("ENCUESTAS Y ALUMNOS")
         print(encuestas[0].encuesta_resp)
 
-        return redirect(url_for('inicioAA', username=alumno.username))
+        return redirect(url_for('inicioAlum', username=alumno.username))
         # acá ingresas a la base de datos
      
     return render_template("encuestas_verA.html", id_encuesta=id, preguntas=preguntas, enc=enc, identificador=id, cant_preguntas=cant_preguntas, id_alum=id_alum)
@@ -761,6 +926,33 @@ def preguntas_edit(id, id_encuesta):
     #     db.session.commit()
         return redirect(url_for("encuestas_verA", id=id_encuesta))
     return render_template("preguntas_edit.html", nombre_pregunta = preguntas[0].nombre)
+
+@app.route('/preguntasA/<id>/edit/<id_actividad>', methods=["get", "post"])
+@login_required
+def preguntasA_edit(id, id_actividad):
+    from aplicacion.models import Actividades , PreguntasA
+    print("id_pregunta: %s - id_actividad: %s" % (id, id_actividad))
+    # Control de permisos
+    if not current_user.is_admin():
+        abort(404)
+
+    
+    print("imprimir id: ", id)
+    preguntas = PreguntasA.query.filter_by(Actividadid=id_actividad).filter_by(id=id)
+    print("id_actividad", preguntas[0].Actividadid)
+    
+    if preguntas is None:
+        abort(404)
+
+    if request.method == "POST":
+        texto = request.form['nombre_preg']
+        print(texto)
+        preguntas[0].nombre = texto
+        db.session.commit()
+    
+        return redirect(url_for("actividades_verA", id=id_actividad))
+    return render_template("preguntasA_edit.html", nombre_pregunta = preguntas[0].nombre)
+
 
 @app.route('/ejercicios/<id>/edit', methods=["get", "post"])
 @login_required
@@ -1108,7 +1300,7 @@ def login():
             else:
                     print("soy normal")
                     
-                    return redirect(url_for('inicioAA', username=user.username))
+                    return redirect(url_for('inicioAlum', username=user.username))
                     
             print(user)
             return redirect(url_for('inicio'))

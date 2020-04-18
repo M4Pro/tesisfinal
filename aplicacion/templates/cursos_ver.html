@@ -6,10 +6,9 @@
     
     <table class="table">
       <thead>
-        <th>{{curso[0].nombre}}</th>
+        <th><h2> <b> Nombre del Curso:</b>   {{curso[0].nombre}}</h2></th>
         <tr>
-          <th scope="col">Numero</th>
-          <th scope="col">Alumno</th>
+          <th scope="col">Alumnos</th>
           <th scope="col">Promedio Parcial</th>
          
           
@@ -17,8 +16,7 @@
       </thead>
       <tbody>
         {% for index in dataTable %}
-          <tr>
-              <td>{{ index.index }}</td>           
+          <tr>        
               <td>{{ index.nombreAlumno }}</td>
               <td>{{ index.promedio }}</td>
               

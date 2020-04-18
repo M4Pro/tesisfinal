@@ -2,7 +2,7 @@
 {% block title %}Introduccion a la Ingenieria{% endblock %}
 {% block contenido %}
 <div class="container">
-  <h3> {{enc.nombre}}</h3> 
+  <h3> <b> {{enc.nombre}}</b></h3> 
   <!-- <table BORDER WIDTH="100%" HEIGHT="50%">
     <form class="form-inline" method="POST" action=/encuestas/{{identificador}}/ver/{{ id_alum }}>
       {% for pre in preguntas %}
@@ -39,7 +39,7 @@
       <tr>
         <td>{{ pre.nombre }}</td>
         
-        <td><a href="{{url_for('preguntas_edit',id=pre.id, id_encuesta=id_encuesta)}}"><span class="glyphicon glyphicon-search"></span> Editar</a></td>
+        <td><a href="{{url_for('preguntas_edit',id=pre.id, id_encuesta=id_encuesta)}}"><span class="glyphicon glyphicon-edit"></span> Editar</a></td>
       </tr>
       <input type="hidden" id="dtp_input1" value="{{identificador}}" name="identificador"/>
       <input type="hidden" id="dtp_input2" value="{{identificador_alumno}}" name="identificador_alumno"/>

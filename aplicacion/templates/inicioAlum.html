@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <body>
+
+    <div class="container-fluid">
+      
+      <div class="row">
+        <h2><b>Datos del Alumno</b></h2>
+        <h3><b>Alumno:</b>{{alum[0].nombre}} </h3>
+        <h3><b>Curso:</b>{{cur[0].nombre}} </h3>
+        
+        <div class="col-sm-4" style="background-color:#73DDFF;"><h2><b>Mis Ejercicios</b></h2>
+
+          {% for eje in ejerciciosalu %}
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{eje.titulo}}</h3>
+            <a class="col-sm-14" href="{{url_for('ejerciciosA', id_ejercicio=eje.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-pencil"></span> <b>Responder</b></a>
+          
+          </div>
+          {% endfor %}
+            
+
+        </div>
+            
+
+        <div class="col-sm-4" style="background-color:#90B7C4;"><h2><b>Mis Encuestas</b></h2>
+          {% for enc in encuestasalu %}
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{enc.nombre}}</h3>
+            <a class="col-sm-14" href="{{url_for('encuestas_ver',id=enc.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-pencil"></span> <b>Responder</b></a>
+          </div>
+          {% endfor %}
+        </div>
+
+
+
+        <div class="col-sm-4" style="background-color:#AC9EE7;"><h2><b>Mis Test</b></h2>
+          {% for act in actividadesalu %}
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{act.nombre}}</h3>
+            <a class="col-sm-14" href="{{url_for('actividades_ver',id=act.id, id_alum=alum[0].id)}}"><span class="glyphicon glyphicon-pencil"></span> <b>Responder</b></a>
+          </div>
+          {% endfor %}
+
+        </div>
+   
+      </div>
+    </div>
+    
+    <div class="container-fluid">
+      
+      <div class="row">
+        <h2><b>Notas y Puntajes del Alumno</b></h2>
+        
+        
+        <div class="col-sm-4" style="background-color:#73DDFF;"><h2><b>Nota Ejercicios</b></h2>
+
+          {% for index in dataTable %}
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{index.nombreEncuesta}}</h3>
+            <h2><b>{{index.puntajeTotal}}</b></h2>
+
+            
+          
+          </div>
+          {% endfor %}
+            
+          
+
+        </div>
+            
+
+        <div class="col-sm-4" style="background-color:#90B7C4;"><h2><b>Puntaje Encuestas</b></h2>
+          {% for index in dataTable2 %}
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{index.nombreEncuesta}}</h3>
+            <h2><b>{{index.puntajeTotal}}</b></h2>
+            
+          </div>
+          {% endfor %}
+        </div>
+
+
+
+        <div class="col-sm-4" style="background-color:#AC9EE7;"><h2><b>Nota Test</b></h2>
+          {% for index in dataTable3 %}
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{index.nombreTest}}</h3>
+            <h2><b>{{index.puntajeTotal}}</b></h2>
+            
+          </div>
+          {% endfor %}
+
+        </div>
+   
+      </div>
+    </div>
+    
+    
+    
+   
+    
+    </body>
+</div>
+ 	
+  
+{% endblock %}

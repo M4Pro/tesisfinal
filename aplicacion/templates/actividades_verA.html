@@ -2,7 +2,7 @@
 {% block title %}Introduccion a la Ingenieria{% endblock %}
 {% block contenido %}
 <div class="container">
-  <h3> {{enc.nombre}}</h3> 
+  <h2> <b> {{act.nombre}}</b></h2> 
   <!-- <table BORDER WIDTH="100%" HEIGHT="50%">
     <form class="form-inline" method="POST" action=/encuestas/{{identificador}}/ver/{{ id_alum }}>
       {% for pre in preguntas %}
@@ -32,26 +32,14 @@
     
   </table> -->
 
-  <form class="form-inline" method="POST" action=/encuestas/{{identificador}}/ver/{{ id_alum }}>
+  <form class="form-inline" method="POST" action=/actividades/{{identificador}}/ver/{{ id_alum }}>
   <table class="table">
     <tbody>
       {% for pre in preguntas %}
       <tr>
         <td>{{ pre.nombre }}</td>
-        <td>
-          
-          <select class="form-control custom-select my-1 mr-sm-2" id="calificacion" name="{{'calificacion'+loop.index|string}}" required>
-            <option value="" selected>Seleccionar</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-          </select>
-        </td>
         
+        <td><a href="{{url_for('preguntasA_edit',id=pre.id, id_actividad=id_actividad)}}"><span class="glyphicon glyphicon-search"></span> Editar</a></td>
       </tr>
       <input type="hidden" id="dtp_input1" value="{{identificador}}" name="identificador"/>
       <input type="hidden" id="dtp_input2" value="{{identificador_alumno}}" name="identificador_alumno"/>
@@ -59,7 +47,6 @@
       {% endfor %}
     </tbody>
   </table>
-  <button type="submit" class="btn btn-primary my-1">Enviar</button>
   </form>
   
  
@@ -68,12 +55,12 @@
    
       
           
-      {% for enc in encuestas %}
+      <!-- {% for enc in encuestas %}
         <tr>
           <td>{{enc.nombre}}</td>
           
         </tr>
-      {% endfor %}
+      {% endfor %} -->
 
           
        

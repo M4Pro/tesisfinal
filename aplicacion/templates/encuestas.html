@@ -19,9 +19,9 @@
           <td>{{enc.nombre}}</td>
           {% if current_user.is_authenticated and current_user.is_admin() %}
           
-          <td><a href="{{url_for('encuestas_edit',id=enc.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar Encuesta</a></td>
+          <td><a href="{{url_for('encuestas_edit',id=enc.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar Nombre Encuesta</a></td>
+          <td><a href="{{url_for('encuestas_verA',id=enc.id)}}"><span class="glyphicon glyphicon-search"></span> Ver y/o Modificar Preguntas</a></td>
           <td><a href="{{url_for('encuestas_delete',id=enc.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar Encuesta</a></td>
-          <td><a href="{{url_for('encuestas_verA',id=enc.id)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
           {%endif%}
         </tr>
       {% endfor %}

@@ -20,7 +20,7 @@
               <td>{{ index.nombreAlumno }}</td>
               <td>{{ index.tituloEjercicio }}</td>
               <td>{{ index.puntTotal }}</td>
-              <td><a href="{{url_for('ejerciciosADM', id_ejercicio=index.idEjercicio, id_alum=index.idAlumno)}}"><span class="glyphicon glyphicon-search"></span> Ver</a></td>
+              <td><a href="{{url_for('ejerciciosADM', id_ejercicio=index.idEjercicio, id_alum=index.idAlumno)}}"><span class="glyphicon glyphicon-ok-circle"></span> Calificar y/o Corregir Calificación</a></td>
                          
           </tr>
         {% endfor %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Pregunta{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+    <h3>Editar Pregunta</h3>  
+
+  <form method="POST">
+	<div class="form-group">
+		<input name="nombre_preg" value="{{ nombre_pregunta }}" class="form-control form-control-lg" type="text" placeholder=".form-control-lg">
+	</div>
+	
+	<button type="submit" class="btn btn-primary">Aplicar</button>
+  </form>
+ 
+    <br/>
+  </div>
+</div>
+ 	
+  
+{% endblock %}
