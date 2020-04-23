@@ -2,28 +2,16 @@
 {% block title %}Portafolio{% endblock %}
 {% block contenido %}
 <div class="container">
-  <div class="col-md-9"></div>
-  <button class="btn btn-primary" onclick="funcionimprimir()">Imprimir Lista de Alumnos</button>
-        <script>
-
-          function funcionimprimir(){
-            window.print()
-          }
-          
-          </script>
-        
   <div class="row">
     
     <table class="table">
       <thead>
         <th><h2> <b> Nombre del Curso:</b>   {{curso[0].nombre}}</h2></th>
-       
-        
-        
         <tr>
           <th scope="col">Alumnos</th>
-          
-         
+          {% if current_user.is_authenticated and current_user.is_admin() %}
+          <th scope="col">Promedio Parcial</th>
+          {%endif%}
           
         </tr>
       </thead>
@@ -31,8 +19,9 @@
         {% for index in dataTable %}
           <tr>        
               <td>{{ index.nombreAlumno }}</td>
+              {% if current_user.is_authenticated and current_user.is_admin() %}
               <td>{{ index.promedio }}</td>
-              
+              {%endif%}
               
                          
           </tr>

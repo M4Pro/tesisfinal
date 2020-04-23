@@ -3,10 +3,25 @@
 {% block contenido %}
 <div class="container">
   <div class="row">
-    
-    <table class="table">
+<h2>Mis Alumnos</h2>
+<div class="col-md-9">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por Nombre.." title="Type in a name">
+</div>
+<div>
+
+
+    <table id="myTable" class="table">
+      <button class="btn btn-primary" onclick="funcionimprimir()">Imprimir Notas</button>
+        <script>
+
+          function funcionimprimir(){
+            window.print()
+          }
+          
+          </script>
+        </div>
       <thead>
-        <tr>
+        <tr class="header">
           <th scope="col">Alumno</th>
           <th scope="col">Ejercicio</th>
           <th scope="col">Nota</th>
@@ -27,7 +42,28 @@
       </tbody>
     </table>
     
-  </div>
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
+  
+  </div>  
 </div>
  	
   

@@ -3,9 +3,18 @@
 {% block contenido %}
 <div class="container">
   <div class="col-md-2"></div>
+  <button class="btn btn-primary" onclick="funcionimprimir()">Imprimir Datos del Alumno</button>
+        <script>
+
+          function funcionimprimir(){
+            window.print()
+          }
+          
+          </script>
   <div class="col-md-6">
 	
 	<h3>Datos del Alumno</h3>  
+	
 	<div class="list-group">
 		<table class="table table-bordered">
 			
@@ -14,16 +23,16 @@
 				<TH>Nombre alumno</TH>
 				<TH>Email</TH>
 				<TH>Curso</TH>
-				<TH>Encuestas</TH>
+				<TH>Notas Ejercicios</TH>
 			 </TR>
 			 <TR>
 				<TD>{{alu.nombre}}</TD>
 				<TD>{{alu.email}}</TD>
 				<TD>{{cursos[0].nombre}}</TD>
 				<TD>
-					{% for enc in encuestas %}
+					{% for punt in puntaje %}
 				 
-						<h5>{{enc.id}}.{{enc.nombre}}</h5>
+						<h5>{{punt.puntaje_total}}</h5>
 			   
 				  
 				   {% endfor %}

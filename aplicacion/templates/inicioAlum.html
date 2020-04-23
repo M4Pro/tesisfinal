@@ -49,13 +49,13 @@
     <div class="container-fluid">
       
       <div class="row">
-        <h2><b>Notas y Puntajes del Alumno</b></h2>
+        <h2><b>Mis Notas y Puntajes</b></h2>
         
         
         <div class="col-sm-4" style="background-color:#73DDFF;"><h2><b>Nota Ejercicios</b></h2>
 
           {% for index in dataTable %}
-          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{index.nombreEncuesta}}</h3>
+          <div class="col-sm-13" style="background-color:#D3EEF7;"><h3>{{index.nombreEjercicio}}</h3>
             <h2><b>{{index.puntajeTotal}}</b></h2>
 
             

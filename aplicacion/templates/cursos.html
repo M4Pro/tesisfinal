@@ -11,7 +11,7 @@
             <th>Nombre</th>
             {% if current_user.is_authenticated and current_user.is_admin() %}
             <td> <a class="btn btn-primary" href="{{url_for('cursos_new')}}" role="button">Nuevo Curso</a></td>
-            <td><a class="btn btn-primary" href="{{url_for('preguntas_new')}}" role="button">Nueva Pregunta</a></td>
+            
             {% endif %}
           </tr>
         {% for cur in cursos %}
@@ -21,10 +21,10 @@
               
               <td><a href="{{url_for('cursos_edit',id=cur.id)}}"><span class="glyphicon glyphicon-pencil"></span> Modificar Curso</a></td>
               <td><a href="{{url_for('cursos_delete',id=cur.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar Curso</a></td>
-              <td><a href="{{url_for('cursos_ver',id=cur.id)}}"><span class="glyphicon glyphicon-pencil"></span> Ver Curso</a></td>
+              
               
           {% endif %}</td>
-            
+          <td><a href="{{url_for('cursos_ver',id=cur.id)}}"><span class="glyphicon glyphicon-pencil"></span> Ver Curso</a></td>  
           </tr>
         {% endfor %}
       </table>
