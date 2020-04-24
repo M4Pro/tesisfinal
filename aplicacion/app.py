@@ -960,13 +960,7 @@ def encuestas_edit(id):
 
     enc = Encuestas.query.get(id)
     
-    preguntas = Preguntas.query.all()
-    print("El valor del id actual es",id)
-    print("el valor del encuesta id de la pregunda  es",preguntas[0].Encuestaid)
-    if int(preguntas[0].Encuestaid) == int(id):
-        print("es")
-    else:
-            print("no es",preguntas[0].Encuestaid,id)
+    
     
     if enc is None:
         abort(404)
