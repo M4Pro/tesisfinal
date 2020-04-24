@@ -3,11 +3,13 @@
 {% block contenido %}
 <div class="container">
   <div class="col-md-9"></div>
-  <button class="btn btn-primary" onclick="funcionimprimir()">Imprimir Lista de Alumnos</button>
+  <button class="btn btn-primary" id="idbutton" onclick="funcionimprimir()">Imprimir Lista de Alumnos</button>
         <script>
 
           function funcionimprimir(){
-            window.print()
+            document.getElementById("idbutton").style.visibility = "hidden";
+  window.print()
+  document.getElementById("idbutton").style.visibility = "visible";
           }
           
           </script>

@@ -32,6 +32,12 @@ class formEncuesta(FlaskForm):
     submit = SubmitField('Enviar')
 
 
+class formArchivo(FlaskForm):
+    filename = FileField()
+    Cursoid = SelectField("Curso:", coerce=int)
+    
+    submit = SubmitField('Enviar')
+
 class formActividad(FlaskForm):
     nombre = StringField("Nombre:",
                          validators=[Required("Tienes que introducir el dato")]

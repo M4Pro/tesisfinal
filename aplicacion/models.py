@@ -41,6 +41,7 @@ class Cursos(db.Model):
     alumnos = relationship("Alumnos", cascade="all, delete-orphan", backref="Cursos",lazy='dynamic')
     encuestas = relationship("Encuestas", cascade="all, delete-orphan", backref="Cursos",lazy='dynamic')
     actividades = relationship("Actividades", cascade="all, delete-orphan", backref="Cursos",lazy='dynamic')
+    image = relationship("Image", cascade="all, delete-orphan", backref="Cursos",lazy='dynamic')
     ejercicios = relationship("Ejercicios", cascade="all, delete-orphan", backref="Cursos",lazy='dynamic')
     def __repr__(self):
         return (u'<{self.__class__.__name__}: {self.id}>'.format(self=self))
@@ -111,7 +112,12 @@ class Puntaje(db.Model):
     puntaje_total = db.Column(db.Float)
     alu_id = db.Column(db.Integer, db.ForeignKey('alumnos.id'))
     enc_id = db.Column(db.Integer, db.ForeignKey('encuestas.id'))
-
+    
+class Image(db.Model):
+    image_id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(80), nullable=False)
+    Cursoid = db.Column(db.Integer, db.ForeignKey("cursos.id"), nullable=False)
+    uploader = db.Column(db.String(50), nullable=True)
 
 class PuntajeA(db.Model):
     puntajeA_id = db.Column(db.Integer, primary_key=True)

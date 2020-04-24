@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Portafolio{% endblock %}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+  
+    <div class="offset-md-4">
+      <h1><b> Mis Archivos de Apoyo al</b></h1>
+        {% if files %}
+        <dl>
+        {% for file in files[::-1] %}
+        <h3><dt>Tutilo: <a href="{{ url_for('uploaded_file', filename=file.filename) }}">{{ file.filename }}</a></dt></h3>
+        
+        {% endfor %}
+        </dl>
+        {% else %}
+        <p>There are no files yet :(</p>
+        <p><a href="{{ url_for('home') }}">Let's upload one! ^^</a></p>
+        {% endif %}
+              
+    </div> 
+  </div>
+</div>
+ 	
+  
+{% endblock %}

@@ -1,14 +1,14 @@
-from flask import Flask, render_template,flash, redirect, url_for, request, abort,\
+from flask import Flask,send_from_directory, render_template,flash, redirect, url_for, request, abort,\
     session
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from aplicacion import config
-from aplicacion.forms import formCurso, formAlumno,formPreguntaE , formSINO , LoginForm  , FormChangePassword ,formAlumnoE ,formAlumnoED ,formEncuesta , formPregunta, formPreguntaA  , formActividad , formEjercicio
+from aplicacion.forms import formCurso, formAlumno,formArchivo,formPreguntaE , formSINO , LoginForm  , FormChangePassword ,formAlumnoE ,formAlumnoED ,formEncuesta , formPregunta, formPreguntaA  , formActividad , formEjercicio
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, login_user, logout_user, login_required,\
     current_user
 import os
-
+import urllib.parse, hashlib
 app = Flask(__name__)
 app.config.from_object(config)
 Bootstrap(app)
@@ -16,7 +16,92 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+ALLOWED_EXTENSIONS = set(["xls", "jpg", "jpge", "gif", "pdf","docx"])
 
+
+def allowed_file(filename):
+
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/files')
+def get_all_files():
+    from aplicacion.models import Image , Alumnos , Cursos
+    print("el alumno actual es ", current_user.username)
+    alumnos=Alumnos.query.filter_by(id=current_user.id)
+    archivos=Image.query.all()
+    totalarchivos=len(archivos)
+    if totalarchivos ==0:
+        return render_template("nohay.html")
+
+    if not current_user.is_admin():
+        cursos=Cursos.query.filter_by(id=alumnos[0].Cursoid)
+        files = Image.query.filter_by(Cursoid=alumnos[0].Cursoid)
+    else:
+        files=Image.query.all()
+        cursos=Cursos.query.all()
+        cursos[0].nomnbre="Todos"
+        
+    
+   
+
+    return render_template("myfiles.html", files=files, cursos=cursos)
+
+@app.route('/archivos', methods=["GET", "POST"])
+def archivos():
+    from aplicacion.models import Cursos , Image, Alumnos
+    alumnos=Alumnos.query.filter_by(id=current_user.id)
+    
+    cursos = Cursos.query.all()
+    print(len(cursos))
+    cant_cursos = len(cursos)
+
+    if request.method == "POST":
+
+        selectarchivo = request.form["selectarchivo"]
+        print("El id del curso seleccionado es: ", selectarchivo)
+
+        if "ourfile" not in request.files:
+            return "The form has no file part"
+
+        f = request.files["ourfile"]
+        if f.filename=="":
+            return "no file selected"
+        if f and allowed_file(f.filename):
+            filename = secure_filename(f.filename)
+            file_to_db = Image(filename=filename, Cursoid=selectarchivo,uploader=current_user.username)
+            db.session.add(file_to_db)
+            db.session.commit()
+            f.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            return render_template("archivos.html", cursos=cursos, cant_cursos=cant_cursos)
+    return render_template("archivos.html", cursos=cursos, cant_cursos=cant_cursos)
+
+
+@app.route('/upload', methods=["GET", "POST"])
+def upload():
+    if request.method == "POST":
+            if "file" not in request.files:
+                flash("No file part.", "alert-danger")
+                return redirect(request.url)
+            file = request.files["file"]
+            if file.filename == "":
+                flash("No selected file.", "alert-warning")
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            return redirect(url_for("get_file",filename=filename))
+    return render_template("archivos.html")
+
+@app.route('/uploads/<filename>')
+def get_file():
+
+    return send_from_directory(app.config["UPLOAD_FOLDER"],filename)
 
 @app.route('/')
 @app.route('/curso/<id>')
@@ -844,6 +929,7 @@ def ejercicios_new():
     else:
         return render_template("ejercicios_new.html", form=form)
 
+
 @app.route('/encuestas/new', methods=["get", "post"])
 @login_required
 def encuestas_new():
@@ -958,6 +1044,32 @@ def preguntasA_edit(id, id_actividad):
         return redirect(url_for("actividades_verA", id=id_actividad))
     return render_template("preguntasA_edit.html", nombre_pregunta = preguntas[0].nombre)
 
+@app.route('/archivos/new', methods=["get", "post"])
+@login_required
+def archivos_new():
+    from aplicacion.models import Image, Cursos
+    # Control de permisos
+    if not current_user.is_admin():
+        abort(404)
+        
+    form = formArchivo()
+    cursos = [(c.id, c.nombre) for c in Cursos.query.all()[0:]]
+    form.Cursoid.choices = cursos
+    if form.validate_on_submit():
+        try:
+            f = form.photo.data
+            nombre_fichero = secure_filename(f.filename)
+            f.save(app.root_path + "/static/upload/" + nombre_fichero)
+        except:
+            nombre_fichero = ""
+        arc = Image()
+        form.populate_obj(arc)
+        arc.image = nombre_fichero
+        db.session.add(arc)
+        db.session.commit()
+        return redirect(url_for("inicio"))
+    else:
+        return render_template("archivos_new.html", form=form)
 
 @app.route('/ejercicios/<id>/edit', methods=["get", "post"])
 @login_required
@@ -1041,7 +1153,16 @@ def alumnos_new():
     # Control de permisos
     if not current_user.is_admin():
         abort(404)
-        
+
+    if request.method == "POST":
+        texto = request.form['username']
+        alumnos=Alumnos.query.all()
+        alumnosT=len(alumnos)
+        for index in range(0,alumnosT):
+            if texto == alumnos[index].username:
+                print("encontre que es igual")
+                return render_template("existe.html")
+         
     form = formAlumno()
     cursos = [(c.id, c.nombre) for c in Cursos.query.all()[0:]]
     form.Cursoid.choices = cursos
@@ -1266,6 +1387,26 @@ def ejercicios_delete(id):
             db.session.commit()
         return redirect(url_for("ejercicios"))
     return render_template("ejercicios_delete.html", form=form, eje=eje)
+
+@app.route('/archivos/<filename>/delete', methods=["get", "post"])
+@login_required
+def archivos_delete(filename):
+    from aplicacion.models import Image 
+    
+
+    print("filename",filename)
+    arc = Image.query.get(filename)
+
+    print("filename",arc.filename)
+    if arc is None:
+        abort(404)
+    form = formSINO()
+    if form.validate_on_submit():
+        if form.si.data:
+            db.session.delete(arc)
+            db.session.commit()
+        return redirect(url_for("myfiles"))
+    return render_template("archivos_delete.html", form=form, arc=arc)
 
 @app.route('/encuestas/<id>/delete', methods=["get", "post"])
 @login_required

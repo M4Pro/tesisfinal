@@ -11,11 +11,12 @@
 
 
     <table id="myTable" class="table">
-      <button class="btn btn-primary" onclick="funcionimprimir()">Imprimir Notas</button>
+      <button class="btn btn-primary" id="idbutton" onclick="funcionimprimir()">Imprimir Notas</button>
         <script>
 
-          function funcionimprimir(){
-            window.print()
+          function funcionimprimir(){document.getElementById("idbutton").style.visibility = "hidden";
+          window.print()
+          document.getElementById("idbutton").style.visibility = "visible";
           }
           
           </script>
