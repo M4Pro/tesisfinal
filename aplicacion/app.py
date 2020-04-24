@@ -673,7 +673,7 @@ def encuestas_ver(id, id_alum):
             print("SE HIZO EL COMMIT")
         else:
             print("Error")
-            return render_template("error.html")
+            return render_template("error2.html")
 
 
 
@@ -753,7 +753,7 @@ def actividades_verA(id, id_alum):
             print("SE HIZO EL COMMIT")
         else:
             print("Error")
-            return render_template("error.html")
+            return render_template("error2.html")
 
         actividades = Actividades.query.all()
         #encuestas[0].encuesta_resp
